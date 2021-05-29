@@ -1,5 +1,9 @@
 # logic for game itself... stored mystery numbers and store rounds
 class Mastermind
+  DEFAULT_GAME_LENGTH = 12
+  EXACT_MATCH = 'X'.freeze
+  ANY_MATCH = 'O'.freeze
+
   def initialize(code)
     @code = code
     @rounds = []
@@ -11,7 +15,7 @@ class Mastermind
   end
 
   def game_over?
-    @rounds.length == 12
+    @rounds.length == DEFAULT_GAME_LENGTH
   end
 
   def winner?
@@ -58,7 +62,7 @@ class Mastermind
 
       code[i] = nil
       guess[i] = nil
-      result << 'X'
+      result << EXACT_MATCH
     end
 
     result
@@ -71,7 +75,7 @@ class Mastermind
 
       code[code.index(guess[i])] = nil
       guess[i] = nil
-      result << 'O'
+      result << ANY_MATCH
     end
 
     result
