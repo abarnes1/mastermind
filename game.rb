@@ -1,4 +1,4 @@
-#prompts logic to start, setups, and stop game
+# prompts logic to start, setups, and stop game
 
 class Game
   def initialize
@@ -18,12 +18,15 @@ class Game
     print_instructions
     choose_role
 
-    # create secret cide for mastermind constructor
+    # create secret code for mastermind constructor
+    # test for now:
+    test_code = Mastermind.generate_code
+    p "test code: #{test_code}"
 
-    @mastermind = Mastermind.new([1,2,3,4])
+    @mastermind = Mastermind.new(test_code)
 
-    until @mastermind.game_over? do
-      guess = [1,1,3,3]
+    until @mastermind.game_over?
+      guess = player_guess
 
       @mastermind.guess_code(guess)
       @mastermind.print_rounds
@@ -31,8 +34,18 @@ class Game
       break if @mastermind.winner?
     end
   end
-  
-  def play again
+
+  def player_guess
+    puts 'Enter your guess:'
+    guess = gets.chomp.split('')
+    guess = guess.map(&:to_i)
+
+    p "the guess was: #{guess}"
+
+    guess
+  end
+
+  def play_again
     puts 'play again?'
     # y / n with y = play_game
   end

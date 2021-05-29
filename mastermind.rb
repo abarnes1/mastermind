@@ -15,12 +15,13 @@ class Mastermind
   end
 
   def winner?
-    # rounds[-1][:result] = XXXX (whatever red pegs are)
+    @rounds[-1][:result] == %w[X X X X]
   end
 
   def guess_code(code)
+    puts "guessing code #{code}"
     @rounds << { guess: code, result: calculate_result(code) }
-    puts "guessing code #{code} with result #{@rounds[-1][:result]}"
+    puts "with result #{@rounds[-1][:result]}"
     # private func to decide what the pegs (result) are
   end
 
@@ -31,14 +32,48 @@ class Mastermind
     code
   end
 
-  def print_rounds 
+  def print_rounds
     puts @rounds.to_a
   end
 
   private
 
-  def calculate_result(code)
-    code.reverse
+  def calculate_result(guess)
+    remaining_code = @code.map { |i| i }
+    remaining_guess = guess.map { |i| i }
+    result = []
+
+    p "remaining guess before index match #{remaining_guess}"
+    result += exact_matches(remaining_guess, remaining_code)
+    result += any_matches(remaining_guess.compact, remaining_code.compact)
+
+    result
   end
 
+  def exact_matches(guess, code)
+    result = []
+
+    @code.each_index do |i|
+      next if guess[i] != @code[i]
+
+      code[i] = nil
+      guess[i] = nil
+      result << 'X'
+    end
+
+    result
+  end
+
+  def any_matches(guess, code)
+    result = []
+    guess.compact.each_index do |i|
+      next if code.index(guess[i]).nil?
+
+      code[code.index(guess[i])] = nil
+      guess[i] = nil
+      result << 'O'
+    end
+
+    result
+  end
 end
