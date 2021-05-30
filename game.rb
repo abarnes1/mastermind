@@ -1,4 +1,5 @@
 # prompts logic to start, setups, and stop game
+require_relative 'mastermind_printer'
 
 class Game
   def initialize
@@ -29,7 +30,8 @@ class Game
       guess = player_guess
 
       @mastermind.guess_code(guess)
-      @mastermind.print_rounds
+      MastermindPrinter.print_rounds(@mastermind.rounds)
+      # @mastermind.print_rounds
 
       break if @mastermind.winner?
     end

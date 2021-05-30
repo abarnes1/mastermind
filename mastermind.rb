@@ -1,8 +1,12 @@
 # logic for game itself... stored mystery numbers and store rounds
+
+
 class Mastermind
   DEFAULT_GAME_LENGTH = 12
   EXACT_MATCH = 'X'.freeze
-  ANY_MATCH = 'O'.freeze
+  NOT_EXACT_MATCH = 'O'.freeze
+
+  attr_reader :rounds
 
   def initialize(code)
     @code = code
@@ -23,10 +27,7 @@ class Mastermind
   end
 
   def guess_code(code)
-    puts "guessing code #{code}"
-    @rounds << { guess: code, result: calculate_result(code) }
-    puts "with result #{@rounds[-1][:result]}"
-    # private func to decide what the pegs (result) are
+    @rounds << {number: @rounds.length + 1, guess: code, result: calculate_result(code) }
   end
 
   def self.generate_code
@@ -36,20 +37,15 @@ class Mastermind
     code
   end
 
-  def print_rounds
-    puts @rounds.to_a
-  end
-
   private
 
   def calculate_result(guess)
-    remaining_code = @code.map { |i| i }
-    remaining_guess = guess.map { |i| i }
+    code_copy = @code.map { |i| i }
+    guess_copy = guess.map { |i| i }
     result = []
 
-    p "remaining guess before index match #{remaining_guess}"
-    result += exact_matches(remaining_guess, remaining_code)
-    result += any_matches(remaining_guess.compact, remaining_code.compact)
+    result += exact_matches(guess_copy, code_copy)
+    result += not_exact_matches(guess_copy, code_copy)
 
     result
   end
@@ -68,14 +64,15 @@ class Mastermind
     result
   end
 
-  def any_matches(guess, code)
+  def not_exact_matches(guess, code)
     result = []
-    guess.compact.each_index do |i|
-      next if code.index(guess[i]).nil?
+
+    guess.each_index do |i|
+      next if guess[i].nil? || code.index(guess[i]).nil?
 
       code[code.index(guess[i])] = nil
       guess[i] = nil
-      result << ANY_MATCH
+      result << NOT_EXACT_MATCH
     end
 
     result
