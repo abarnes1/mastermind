@@ -11,7 +11,6 @@ class Mastermind
   def initialize(code)
     @code = code
     @rounds = []
-    @code_breaker
   end
 
   def round_number
