@@ -9,11 +9,28 @@ class Game
   end
 
   def print_instructions
-    puts 'these are the instructions'
+    puts 'Welcome to Mastermind!'
+    puts ''
+    puts '  Rules:'
+    puts '    A 4 digit code will be chosen by the code maker where each digit is 1-6.'
+    puts '    valid codes:  1234, 5566 | invalid codes: 142, 1237, 16AB'
+    puts ''
+    puts '  The code maker will set the secrete code that the code breaker will attempt to solve.'
+    puts '  Code breakers have 12 chances to correctly guess the code.'
+    puts ''
+    puts '  Each guess will get red and white pegs (or nothing!) to help narrow down the secret code.'
+    puts "    #{MastermindPrinter.exact_match_marker} mean there is a correct digit in the right position."
+    puts "    #{MastermindPrinter.not_exact_match_marker} mean there is a correct digit, but it is not in the right position."
+    puts ''
   end
 
   def choose_role
-    puts 'choose breaker or maker (and difficulty for breaker cpu)'
+    
+    answer = ''
+    until %w[1 2].include? answer
+      print 'Choose your role, 1 for code breaker and 2 for code maker: '
+      answer = gets.chomp
+    end
   end
 
   def play_game

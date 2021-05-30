@@ -1,4 +1,6 @@
 class MastermindPrinter
+  MATCH_PEG_CODE = "\u26AC".freeze
+
   def self.print_rounds(rounds)
     full_display = header
     rounds.each { |round| full_display += print_round(round)}
@@ -7,9 +9,6 @@ class MastermindPrinter
     puts full_display
   end
 
-  # priv from here down
-  MATCH_PEG_CODE = "\u26AC".freeze
-
   def self.exact_match_marker
     "\e[31m#{MATCH_PEG_CODE}\e[0m"
   end
@@ -17,7 +16,8 @@ class MastermindPrinter
   def self.not_exact_match_marker
     MATCH_PEG_CODE
   end
-  private_class_method :exact_match_marker
+
+  # priv from here down
 
   def self.number_marker(number)
     case number
