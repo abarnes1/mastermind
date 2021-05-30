@@ -1,5 +1,6 @@
 # prompts logic to start, setups, and stop game
-require_relative 'mastermind_printer'
+
+$stdout.sync = true # allows use of print keep prompt and input on same line
 
 class Game
   def initialize
@@ -19,37 +20,49 @@ class Game
     print_instructions
     choose_role
 
-    # create secret code for mastermind constructor
-    # test for now:
-    test_code = Mastermind.generate_code
-    p "test code: #{test_code}"
+    @mastermind = Mastermind.new(Mastermind.generate_code)
 
-    @mastermind = Mastermind.new(test_code)
+    game_loop
 
+    puts "The code was: #{@mastermind.end_game.join}"
+    puts @mastermind.winner? ? 'Code breaker wins!' : 'Code maker wins!'
+  end
+
+  def game_loop
     until @mastermind.game_over?
       guess = player_guess
 
       @mastermind.guess_code(guess)
       MastermindPrinter.print_rounds(@mastermind.rounds)
-      # @mastermind.print_rounds
 
       break if @mastermind.winner?
     end
   end
 
   def player_guess
-    puts 'Enter your guess:'
-    guess = gets.chomp.split('')
-    guess = guess.map(&:to_i)
+    guess = ''
 
-    p "the guess was: #{guess}"
+    until valid_input?(guess)
+      print 'Enter your guess: '
+      guess = gets.chomp.split('')
+      guess = guess.map(&:to_i)
+    end
 
     guess
   end
 
   def play_again
-    puts 'play again?'
-    # y / n with y = play_game
+    answer = ''
+    until %w[y n].include?(answer)
+      puts 'Play again? Y / N'
+      answer = gets.chomp.downcase
+    end
+
+    answer
+  end
+
+  def valid_input?(guess)
+    guess.length == 4 && guess.all? { |i| i.is_a?(Integer) }
   end
 end
 

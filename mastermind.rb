@@ -27,12 +27,19 @@ class Mastermind
   end
 
   def guess_code(code)
-    @rounds << {number: @rounds.length + 1, guess: code, result: calculate_result(code) }
+    @rounds << { number: @rounds.length + 1, guess: code, result: calculate_result(code) }
   end
 
   def self.generate_code
     code = []
     4.times { code << rand(1..6) }
+
+    code
+  end
+
+  def end_game
+    code = @code
+    @code = nil
 
     code
   end

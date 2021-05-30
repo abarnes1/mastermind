@@ -14,4 +14,10 @@ require_relative 'mastermind_printer'
 # p Mastermind::DEFAULT_GAME_LENGTH
 
 game = Game.new
-game.play_game
+
+play_again = 'y'
+while play_again == 'y'
+  game.play_game
+
+  play_again = game.play_again
+end

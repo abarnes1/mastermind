@@ -1,25 +1,25 @@
-module MastermindPrinter
-  def MastermindPrinter.print_rounds(rounds)
-    full_display = MastermindPrinter.header
+class MastermindPrinter
+  def self.print_rounds(rounds)
+    full_display = header
     rounds.each { |round| full_display += print_round(round)}
-    full_display += MastermindPrinter.footer
+    full_display += footer
 
     puts full_display
   end
 
-  private
-
+  # priv from here down
   MATCH_PEG_CODE = "\u26AC".freeze
 
-  def MastermindPrinter.exact_match_marker
+  def self.exact_match_marker
     "\e[31m#{MATCH_PEG_CODE}\e[0m"
   end
 
-  def MastermindPrinter.not_exact_match_marker
+  def self.not_exact_match_marker
     MATCH_PEG_CODE
   end
+  private_class_method :exact_match_marker
 
-  def MastermindPrinter.number_marker(number)
+  def self.number_marker(number)
     case number
     when 1
       "\e[31m\u2776\e[0m"
@@ -35,37 +35,42 @@ module MastermindPrinter
       "\e[36m\u277b\e[0m"
     end
   end
+  private_class_method :number_marker
 
-  def MastermindPrinter.print_round(round)
-    round_display = "| " + " #{round[:number]}  | ".chars.last(6).join
-    round_display += guess_column(round[:guess]) + ' |'
+  def self.print_round(round)
+    round_display = '| ' + " #{round[:number]}  | ".chars.last(6).join
+    round_display += "#{guess_column(round[:guess])} |"
     round_display += result_column(round[:result])
     round_display += " |\n"
 
     round_display
   end
+  private_class_method :print_round
 
-  def MastermindPrinter.header
+  def self.header
     "========================\n"
   end
+  private_class_method :header
 
-  def MastermindPrinter.footer
-    "========================"
+  def self.footer
+    '========================'
   end
+  private_class_method :footer
 
-  def MastermindPrinter.guess_column(guess)
+  def self.guess_column(guess)
     guess_display = ''
-    guess.each { |num| guess_display += number_marker(num) + ' ' }
+    guess.each { |num| guess_display += "#{number_marker(num)} " }
 
     guess_display
   end
+  private_class_method :guess_column
 
-  def MastermindPrinter.result_column(result)
+  def self.result_column(result)
     result_display = ''
 
-    result.each { |peg| result_display += (peg == Mastermind::EXACT_MATCH) ? exact_match_marker : not_exact_match_marker }
-    result_display += ' ' * (4 - result.length) 
+    result.each { |peg| result_display += peg == Mastermind::EXACT_MATCH ? exact_match_marker : not_exact_match_marker }
+    result_display += ' ' * (4 - result.length)
     result_display
   end
-
+  private_class_method :result_column
 end
