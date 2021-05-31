@@ -10,18 +10,22 @@ class Game
   end
 
   def print_instructions
-    puts 'Welcome to Mastermind!'
+    puts '                     _                      _           _ '
+    puts ' _ __ ___   __ _ ___| |_ ___ _ __ _ __ ___ (_)_ __   __| |'
+    puts "| '_ ` _ \\ / _` / __| __/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` |"
+    puts '| | | | | | (_| \__ \ ||  __/ |  | | | | | | | | | | (_| |'
+    puts '|_| |_| |_|\__,_|___/\__\___|_|  |_| |_| |_|_|_| |_|\__,_|'
     puts ''
-    puts '  Rules:'
-    puts '    A 4 digit code will be chosen by the code maker where each digit is 1-6.'
-    puts '    valid codes:  1234, 5566 | invalid codes: 142, 1237, 16AB'
+    puts 'Rules:'
+    puts '  A 4 digit code will be chosen by the code maker where each digit is 1-6.'
+    puts '  valid codes:  1234, 5566 | invalid codes: 142, 1237, 16AB'
     puts ''
     puts '  The code maker will set the secret code that the code breaker will attempt to solve.'
     puts '  Code breakers have 12 chances to correctly guess the code.'
     puts ''
-    puts '  Each guess will get red and white pegs (or nothing!) to help narrow down the secret code.'
-    puts "    #{MastermindPrinter.exact_match_marker}: there is a correct digit in the right position."
-    puts "    #{MastermindPrinter.not_exact_match_marker}: there is a correct digit, but it is not in the right position."
+    puts '  Each guess will get red and white circles (or nothing!) to help narrow down the secret code.'
+    puts "    #{MastermindPrinter.exact_match_marker} - there is a correct digit in the right position."
+    puts "    #{MastermindPrinter.not_exact_match_marker} - there is a correct digit, but it is not in the right position."
     puts ''
   end
 
@@ -72,7 +76,11 @@ class Game
     guess = ''
 
     if @breaker.instance_of?(ComputerBreaker)
-      guess = @breaker.guess
+      guess = @breaker.guess(@mastermind.rounds[-1])
+      puts "Computer's turn...thinking real hard about the remaining #{@breaker.remaining_code_count} code(s)..."
+
+      # timer of false hope
+      sleep(2)
     else
       until valid_input?(guess)
         print 'Enter your guess: '
@@ -86,9 +94,10 @@ class Game
 
   def create_mastermind
     @mastermind = if @breaker.instance_of?(ComputerBreaker)
-                    Mastermind.new(Mastermind.generate_code)
-                  else
                     Mastermind.new(player_code)
+                  else
+                    puts 'The computer has generated a secret code.'
+                    Mastermind.new(Mastermind.generate_code)
                   end
   end
 
