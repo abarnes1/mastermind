@@ -1,6 +1,10 @@
 # Mastermind!
 
-A console version of Mastermind written in Ruby as part of The Odin Project curriculum.  Can you create a code that the computer can't break? (No... but it does a lot of math very quickly.)
+Play it live!
+
+https://replit.com/@abar161/mastermind
+
+A console version of Mastermind written in Ruby as part of The Odin Project curriculum.  Can you create a code that the computer can't break? (No... but it does a lot of math very quickly.)  The unicode characters chosen to display numbers render pretty small in chrome.  Firefox is recommended to view the replit until a better solution can be found
 
 Key learning concepts:
 <ul>
