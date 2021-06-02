@@ -6,7 +6,7 @@ class HumanBreaker
   def guess
     guess = ''
 
-    until Game.valid_code?(guess)
+    until GameMaster.valid_code?(guess)
       print 'Enter your guess: '
       guess = gets.chomp.split('')
       guess = guess.map(&:to_i)

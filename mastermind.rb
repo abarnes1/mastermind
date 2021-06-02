@@ -1,9 +1,10 @@
-# logic for game itself... stored mystery numbers and store rounds
+# frozen_string_literal: true
 
+# serves as the game board and encapsulates game state to prevent tampering
 class Mastermind
   DEFAULT_GAME_LENGTH = 12
-  EXACT_MATCH = 'X'.freeze
-  NOT_EXACT_MATCH = 'O'.freeze
+  EXACT_MATCH = 'X'
+  NOT_EXACT_MATCH = 'O'
 
   attr_reader :rounds
 

@@ -5,9 +5,8 @@ class ComputerBreaker
   end
 
   def guess
-    # remove losing codes and resample
     remove_losing_codes(@last_result[:guess], @last_result[:result]) unless @last_result.nil?
-    puts "Computer is thinking real hard about the remaining #{@possible_codes.size} code(s)..."
+    puts "\nComputer is thinking real hard about the remaining #{@possible_codes.size} code(s)..."
 
     # slowdown to keep from immediately running through the entire game
     sleep(2)
@@ -24,6 +23,8 @@ class ComputerBreaker
     @possible_codes.delete(guess)
 
     remove_by_exact_match(guess, result)
+
+    # computer always wins already, remove_by_not_exact_match function doesn't seem necessary
   end
 
   def remove_by_exact_match(guess, result)
@@ -35,10 +36,6 @@ class ComputerBreaker
       (code.each_with_index.to_a & guess_with_index).size == exact_matches ? code : nil
     end
 
-    @possible_codes = @possible_codes & to_keep
+    @possible_codes &= to_keep
   end
-
-  # def rule_out_by_not_exact_match(guess, result)
-  #   # remove possible codes based on not exact matches
-  # end
 end
