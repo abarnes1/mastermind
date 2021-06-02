@@ -1,0 +1,2 @@
+what to do about game end/code reveal?
+rubocop cleanup

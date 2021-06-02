@@ -6,7 +6,7 @@ class Mastermind
   EXACT_MATCH = 'X'
   NOT_EXACT_MATCH = 'O'
 
-  attr_reader :rounds
+  # attr_reader :rounds
 
   def initialize(code)
     @code = code
@@ -36,11 +36,23 @@ class Mastermind
     code
   end
 
+  # reveals the code but makes the game unplayable
   def end_game
     code = @code
     @code = nil
 
     code
+  end
+
+  def rounds
+    # duplicate the internal rounds so they are ready only
+    duplicate_rounds = []
+    @rounds.each do |e|
+      round_copy = { guess: e[:guess], result: e[:result], number: e[:number] }
+      duplicate_rounds.push(round_copy)
+    end
+
+    duplicate_rounds
   end
 
   private
