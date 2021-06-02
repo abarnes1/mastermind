@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# serves as the game board and encapsulates game state to prevent tampering
+# serves as the game "board" and encapsulates game state to prevent tampering
 class Mastermind
   DEFAULT_GAME_LENGTH = 12
   EXACT_MATCH = 'X'
@@ -45,7 +45,7 @@ class Mastermind
   end
 
   def rounds
-    # duplicate the internal rounds so they are ready only
+    # duplicate the internal rounds so they are read only
     duplicate_rounds = []
     @rounds.each do |e|
       round_copy = { guess: e[:guess], result: e[:result], number: e[:number] }

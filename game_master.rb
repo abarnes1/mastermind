@@ -1,9 +1,11 @@
-# prompts logic to start, setups, and stop game
+# frozen_string_literal: true
+
 require_relative 'computer_breaker'
 require_relative 'human_breaker'
 
 $stdout.sync = true # allows use of print keep prompt and input on same line
 
+# logic for setting up, starting, and stopping the mastermind game
 class GameMaster
   def initialize
     @mastermind = nil
@@ -45,7 +47,7 @@ class GameMaster
     answer = ''
 
     until %w[1 2].include?(answer)
-      print 'Choose your role - 1 for code breaker and 2 for code maker: '
+      print 'Choose your role - 1 for code breaker or 2 for code maker: '
       answer = gets.chomp
     end
 

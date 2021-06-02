@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Calculates codes guesses for computer controlled code breaker
 class ComputerBreaker
   def initialize
     @possible_codes = [1, 2, 3, 4, 5, 6].repeated_permutation(4).to_a

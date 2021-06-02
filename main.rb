@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'game_master'
 require_relative 'mastermind'
 require_relative 'mastermind_printer'

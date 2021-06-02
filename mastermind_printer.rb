@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# outputs any instance of Mastermind class to the console window
 class MastermindPrinter
-  MATCH_PEG_CODE = "\u26AC".freeze
+  MATCH_PEG_CODE = "\u26AC"
 
   def self.print_rounds(rounds)
     full_display = header
@@ -16,8 +19,6 @@ class MastermindPrinter
   def self.not_exact_match_marker
     MATCH_PEG_CODE
   end
-
-  # priv from here down
 
   def self.number_marker(number)
     case number
