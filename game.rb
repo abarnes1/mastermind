@@ -1,5 +1,6 @@
 # prompts logic to start, setups, and stop game
 require_relative 'computer_breaker'
+require_relative 'human_breaker'
 
 $stdout.sync = true # allows use of print keep prompt and input on same line
 
@@ -29,7 +30,18 @@ class Game
     puts ''
   end
 
-  def choose_role
+  def play_game
+    print_instructions
+    choose_breaker
+    create_mastermind
+
+    game_loop
+
+    puts "The code was: #{@mastermind.end_game.join}"
+    puts @mastermind.winner? ? 'Code breaker wins!' : 'Code maker wins!'
+  end
+
+  def choose_breaker
     answer = ''
 
     until %w[1 2].include?(answer)
@@ -37,18 +49,7 @@ class Game
       answer = gets.chomp
     end
 
-    @breaker = ComputerBreaker.new unless answer == '1'
-  end
-
-  def play_game
-    print_instructions
-    choose_role
-    create_mastermind
-
-    game_loop
-
-    puts "The code was: #{@mastermind.end_game.join}"
-    puts @mastermind.winner? ? 'Code breaker wins!' : 'Code maker wins!'
+    @breaker = answer == '1' ? HumanBreaker.new : ComputerBreaker.new
   end
 
   def play_again
@@ -61,35 +62,20 @@ class Game
     answer
   end
 
+  def self.valid_code?(guess)
+    guess.length == 4 && guess.all? { |i| i.is_a?(Integer) }
+  end
+
   private
 
   def game_loop
     until @mastermind.game_over?
-      @mastermind.guess_code(next_guess)
+      @mastermind.guess_code(@breaker.guess)
+      @breaker.remember_result(@mastermind.rounds[-1]) if @breaker.instance_of?(ComputerBreaker)
       MastermindPrinter.print_rounds(@mastermind.rounds)
 
       break if @mastermind.winner?
     end
-  end
-
-  def next_guess
-    guess = ''
-
-    if @breaker.instance_of?(ComputerBreaker)
-      guess = @breaker.guess(@mastermind.rounds[-1])
-      puts "Computer's turn...thinking real hard about the remaining #{@breaker.remaining_code_count} code(s)..."
-
-      # timer of false hope
-      sleep(2)
-    else
-      until valid_input?(guess)
-        print 'Enter your guess: '
-        guess = gets.chomp.split('')
-        guess = guess.map(&:to_i)
-      end
-    end
-
-    guess
   end
 
   def create_mastermind
@@ -104,16 +90,12 @@ class Game
   def player_code
     code = ''
 
-    until valid_input?(code)
+    until self.class.valid_code?(code)
       print 'Enter a code for the computer to break: '
       code = gets.chomp.split('')
       code = code.map(&:to_i)
     end
 
     code
-  end
-
-  def valid_input?(guess)
-    guess.length == 4 && guess.all? { |i| i.is_a?(Integer) }
   end
 end

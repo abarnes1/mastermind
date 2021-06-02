@@ -1,6 +1,5 @@
 # logic for game itself... stored mystery numbers and store rounds
 
-
 class Mastermind
   DEFAULT_GAME_LENGTH = 12
   EXACT_MATCH = 'X'.freeze

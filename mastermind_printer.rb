@@ -3,7 +3,7 @@ class MastermindPrinter
 
   def self.print_rounds(rounds)
     full_display = header
-    rounds.each { |round| full_display += print_round(round)}
+    rounds.each { |round| full_display += print_round(round) }
     full_display += footer
 
     puts full_display
